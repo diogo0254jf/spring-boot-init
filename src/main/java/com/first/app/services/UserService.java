@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.first.app.entities.User;
 import com.first.app.repositories.UserRepository;
+import com.first.app.services.exeptions.ResourceNotFoundExeption;
 
 @Service
 public class UserService {
@@ -21,7 +22,7 @@ public class UserService {
 
     public User findById(Long id) {
         Optional<User> obj = userRepository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundExeption(id));
     }
     
 
@@ -31,5 +32,17 @@ public class UserService {
 
     public void delete(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public void update(Long id, User obj) {
+        User entity = userRepository.getReferenceById(id);
+        updateData(entity, obj);
+        userRepository.save(entity);
+    }
+
+    private void updateData(User entity, User obj) {
+        entity.setName(obj.getName());
+        entity.setEmail(obj.getEmail());
+        entity.setPhone(obj.getPhone());
     }
 }
