@@ -2,7 +2,6 @@ package com.first.app.entities;
 
 import java.io.Serializable;
 import java.util.HashSet;
-
 import java.util.Set;
 
 import jakarta.persistence.Entity;
@@ -13,37 +12,43 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity
-@Table(name = "tb_category")
-public class Category implements Serializable {
+@Table(name = "tb_product")
+public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
+    Long id;
+
+    String name;
+    String description;
+    Double price;
+    String imgUrl;
 
     @Transient
-    private Set<Category> categories = new HashSet<>();
+    private Set<Product> products = new HashSet<>();
 
-
-    public Category() {
+    public Product() {
     }
 
-    public Category(Long id, String name) {
+    public Product(Long id, String name, String description, Double price, String imgUrl) {
         this.id = id;
         this.name = name;
+        this.description = description;
+        this.price = price;
+        this.imgUrl = imgUrl;
     }
 
     public Long getId() {
         return id;
     }
 
-    public Set<Category> getCategories() {
-        return categories;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
     }
 
     public String getName() {
@@ -52,6 +57,30 @@ public class Category implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     @Override
@@ -70,13 +99,19 @@ public class Category implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Category other = (Category) obj;
+        Product other = (Product) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
+                + ", imgUrl=" + imgUrl + "]";
     }
 
 }
